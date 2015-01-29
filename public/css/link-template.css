@@ -1,0 +1,59 @@
+.baselink
+{
+    border: 1px lightsteelblue double;
+    border-radius: 5px;
+    box-shadow: 10px 10px 5px lightsteelblue;
+}
+.baselink1
+{
+    border: 1px lightsteelblue double;
+    border-radius: 5px;
+}
+.basemargin
+{
+    margin: 30px;
+    margin-top:50px;
+    margin-bottom: 0px;
+}
+.margincomment{
+    margin: 10px;
+}
+
+.basepadding
+{
+    padding: 15px;
+
+}
+.smallpadding
+{
+    padding-left: 5px;
+    padding-right: 2px;
+}
+textarea {
+    resize: none;
+}
+.smallmargin
+{
+    margin-right: 4px;
+}
+.ui-dialog-titlebar-close {
+    visibility: hidden;
+}
+.newcomment
+{
+    height: 100px;
+}
+.btnpadding
+{
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.voted
+{
+    opacity: 0.7;
+    color: darkred;
+}
+#thumbsUp hover, #thumbsDown hover
+{
+    cursor: pointer;
+}

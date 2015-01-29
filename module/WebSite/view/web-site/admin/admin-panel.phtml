@@ -1,0 +1,42 @@
+<script src="/LinksWebsite/public/js/admin.js"></script>
+<?php
+$title = 'Add new link';
+$this->headTitle($title);
+?>
+    <h1><?php echo $this->escapeHtml($title); ?></h1>
+<?php
+
+//$form->setAttribute('action', $this->url('adminpanel', array('action' => 'adminPanel')));
+$form->prepare();
+?>
+<div class="container">
+    <?php
+echo '<br/>';
+echo $this->form()->openTag($form);
+    ?>
+    <div class="row">
+        <?php
+        echo $this->formLabel($form->get('link_url'));
+        echo '<br/>';
+        echo $this->formInput($form->get('link_url'));
+        echo '<br/>';
+
+        ?>
+    </div>
+    <div class="row">
+        <?php
+echo $this->formLabel($form->get('description'));
+echo '<br/>';
+echo $this->formTextarea($form->get('description'));
+echo '<br/>';
+echo '<br/>';
+        ?>
+    </div>
+    <div class="row">
+        <?php
+echo $this->formSubmit($form->get('submit'), 'prepend');
+echo $this->form()->closeTag();
+?>
+        </div>
+
+</div>

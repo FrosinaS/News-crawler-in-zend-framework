@@ -1,0 +1,55 @@
+<html>
+<head><script src="/LinksWebsite/public/js/manageLinks.js"></script></head>
+<body></body>
+</html>
+<?php
+    $contentArray=$this->data;
+foreach($contentArray as $data)
+{
+?>
+<div class="container basemargin ">
+    <input type="hidden" id="userid" value="<?php if($this->ZfcUserId()){echo $this->ZfcUserId(); }?>"/>
+    <input type="hidden" id="apikey" value="<?php if($this->ZfcUserId()){echo $this->ZfcUserApiKey(); }?> "/>
+    <div class="col-xs-14 col-sm-10 col-md-9 col-md-offset-1 col-xs-offset-1 col-sm-offset-1  baselink basepadding">
+    <div class="row">
+        <div class="col-xs-3 col-sm-3 col-md-2">
+            <img src="<?php echo $this->basePath('img/news.jpg') ?>"/>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-8">
+            <label class="">Url:  </label>
+            <a href="<?php echo $data["url"]; ?>" target="_blank">
+                <?php echo $data["url"]; ?>
+            </a>
+        </div>
+        <div class="col-xs-6 col-sm-3 col-md-2 votes">
+            <input type="hidden" id="linkid" value="<?php echo $data["link_id"]; ?>"/>
+            <span class="glyphicon glyphicon-thumbs-up thumbsUp"></span>
+            <label class="smallpadding votesUp"><?php echo $data["votesUp"]; ?></label>
+            <span class="glyphicon glyphicon-thumbs-down smallpadding thumbsDown"></span>
+            <label class="smallpadding votesDown"><?php echo $data["votesDown"]; ?></label>
+        </div>
+    </div>
+    <div class="row">
+            <div class="col-xs-12 col-sm-14 col-md-9">
+                <label>Description:</label>
+
+                <?php echo $data["description"]; ?>
+                </p>
+            </div>
+                <div class="col-xs-8 col-sm-5 col-md-3">
+                    <div class=""><span class="glyphicon glyphicon-comment"></span>
+                        <a href="<?php echo $this->url('news', array('action'=>'comments','id' => $data['link_id']));?>" class="">View
+                            comments</a>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
+<?php } ?>
+
+<div id="alert" title="Information" class='bg-info' style="display: none;">
+    <p>
+        <span class="glyphicon glyphicon-info-sign" style="float:left; margin:0 7px 20px 0;"></span>
+        <span id="message"></span>
+    </p>
+</div>

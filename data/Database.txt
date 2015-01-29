@@ -1,0 +1,124 @@
+﻿SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+--
+-- Database: `restdatabase`
+--
+CREATE DATABASE IF NOT EXISTS `restdatabase` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+USE `restdatabase`;
+
+-- --------------------------------------------------------
+
+
+--
+-- Table structure for table `comments`
+--
+
+CREATE TABLE IF NOT EXISTS `comments` (
+`comment_id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `comment_text` text COLLATE utf8_unicode_ci NOT NULL,
+  `link_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- RELATIONS FOR TABLE `comments`:
+--   `link_id`
+--       `link` -> `link_id`
+--   `user_id`
+--       `user` -> `user_id`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `link`
+--
+
+CREATE TABLE IF NOT EXISTS `link` (
+`link_id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `url` text COLLATE utf8_unicode_ci NOT NULL,
+  `description` text COLLATE utf8_unicode_ci
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `link`
+--
+
+INSERT INTO `link` (`link_id`, `url`, `description`) VALUES
+(334, 'http://www.novosti.rs/vesti/naslovna/reportaze/aktuelno.293.html:531133-NASA-Asteroid-koji-je-prosao-pored-Zemlje-ima-sopstvenim-mesec', 'Asteroid 2004 BL86 koji je u ponedeljak preleteo pored Zemlje priredio je astronomima iznenađenje. Naime, snimci koje je Američka svemirska agencija (NASA) u utorak objavila, pokazuju da ovo nebesko telo ima svoj - mesec! Na fotografijama se jasno vidi ...'),
+(335, 'http://www.b92.net/tehnopolis/vesti.php?yyyy=2015&mm=01&nav_id=950662', 'Svega nekoliko dana nakon Windows 10 događaja, Microsoft je objavio nove funkcije koje su sada dostupne Windows Insiderima. Najnoviji Windows 10 preview, koji nosi naziv build 9926, ne uključuje sve što je Microsoft prikazao 21. januara, ali donosi ...'),
+(336, 'http://www.cnet.com/uk/news/apple-rings-up-big-holiday-sales-thanks-to-larger-screen-iphone-6/', 'The iPhone 6 didn''t just supersize the phone''s screen size. It also supersized Apple''s financial results. The Cupertino, Calif.'),
+(337, 'http://www.pcworld.com/article/2876452/snapchat-and-twitter-violate-each-others-personal-space.html', 'Things are about to get testy between the Snapchat ghost and Twitter''s birdie as the popular Internet companies invade each other''s space: Twitter has launched a private group messaging feature, while Snapchat added news content.'),
+(338, 'http://www.telegraph.co.uk/technology/news/11372189/Cycling-apps-put-you-at-risk-from-hi-tech-burglars.html', 'Cyclists who use fitness tracking websites like Strava are putting themselves at risk from hi-tech criminals who window-shop for expensive bikes online and target their user''s homes, warn police.'),
+(339, 'http://www.cnet.com/au/news/prynt-smartphone-case-prints-your-photos-polaroid-style/', 'Go retro without giving up modern technology with the Prynt case on Kickstarter. It''s a Polaroid for digital times'),
+(340, 'http://www.expertreviews.co.uk/software/internet-security/1402555/now-talktalk-switches-on-net-filters-by-default', 'TalkTalk has joined Sky in censoring the internet connections of its customers by default. Sky announced last week that it would start filtering the connections of any of its customers who hadn''t yet chosen whether to switch on its parental control filters or not.'),
+(341, 'http://www.valuewalk.com/2015/01/microsoft-corporation-earns-analyst-downgrades-post-earnings/', 'Microsoft Corporation (NASDAQ:MSFT) shares fell as much as 9.9% today, falling as low as $42.35 per share after last night''s earnings report.'),
+(342, 'http://www.macworld.co.uk/how-to/iphone/how-backup-iphone-3595444/', 'Our iPhones are probably one of the most important possessions we have. Putting aside the financial worth of each device, these little slabs of silicon and glass have become the central repositories for our memories, be they photographs of once-in-a ...'),
+(343, 'http://www.knowyourmobile.com/mobile-phones/apple-iphone-6-plus/22822/iphone-6-plus-review-new-dawn-for-iphone', 'Late 2014 finally saw Apple bite the bullet and put out a second iPhone model packing a huge display panel. Yes folks, the iPhone 6 Plus is the first Apple "phablet" and it''s the biggest phone the company has ever produced. It has a 5.5in Full HD panel ...');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user`
+--
+
+CREATE TABLE IF NOT EXISTS `user` (
+`user_id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `username` varchar(255) COLLATE utf8_unicode_ci UNIQUE,
+  `email` varchar(255) COLLATE utf8_unicode_ci UNIQUE,
+  `api_key` varchar(65) COLLATE utf8_unicode_ci UNIQUE,
+  `display_name` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `password` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
+  `state` smallint(6) DEFAULT NULL,
+  `type` varchar(10) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`user_id`, `username`, `email`, `api_key`, `display_name`, `password`, `state`, `type`) VALUES
+(12, 'admin', 'admin@admin.com', 'qVXOC-n5qGE-n11NY-IwLUU', 'admin', '$2y$14$tjseluDjgTSO.dP.zuqkt.n/zHGtqEcN.vrZnW.tJbOXU7PEiZ.i.', NULL, 'admin');
+//password e adminadmin
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_votes`
+--
+
+CREATE TABLE IF NOT EXISTS `user_votes` (
+  `user_id` int(11) NOT NULL,
+  `link_id` int(11) NOT NULL,
+  `vote` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- RELATIONS FOR TABLE `user_votes`:
+--   `link_id`
+--       `link` -> `link_id`
+--   `user_id`
+--       `user` -> `user_id`
+--
+
+
+--
+-- Indexes for table `user_votes`
+--
+ALTER TABLE `user_votes`
+ ADD PRIMARY KEY (`user_id`,`link_id`), ADD KEY `link_vote` (`link_id`);
+
+
+--
+-- Constraints for table `comments`
+--
+ALTER TABLE `comments`
+ADD CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`link_id`) REFERENCES `link` (`link_id`) ON DELETE CASCADE,
+ADD CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `user_votes`
+--
+ALTER TABLE `user_votes`
+ADD CONSTRAINT `link_vote` FOREIGN KEY (`link_id`) REFERENCES `link` (`link_id`) ON DELETE CASCADE,
+ADD CONSTRAINT `user_vote` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE;

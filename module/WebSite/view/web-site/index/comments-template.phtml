@@ -1,0 +1,161 @@
+<html>
+<head>
+    <script src="/LinksWebsite/public/js/manageComments.js"></script>
+</head>
+<body></body>
+</html>
+<?php
+
+$linkContent = $this->data;
+$linkUrl = $linkContent['link']['url'];
+$linkId = $linkContent['link']['link_id'];
+$linkDescription = $linkContent['link']['description'];
+$votesUp = $linkContent['link']['votesUp'];
+$votesDown = $linkContent['link']['votesDown'];
+$comments = $linkContent['comments'];
+
+?>
+<input type="hidden" id="userid" value="<?php if ($this->ZfcUserId()) {
+    echo $this->ZfcUserId();
+} ?> "/>
+<input type="hidden" id="username" value="<?php if ($this->ZfcUserId()) {
+    echo $this->ZfcUserDisplayName();
+} ?> "/>
+<input type="hidden" id="linkid" value="<?php echo $linkId ?> "/>
+<input type="hidden" id="apikey" value="<?php if ($this->ZfcUserId()) {
+    echo $this->ZfcUserApiKey();
+} ?> "/>
+<div class="container basemargin">
+    <div class="col-xs-14 col-sm-10 col-md-9 col-md-offset-1 col-xs-offset-1 col-sm-offset-1 panel panel-info">
+        <div class="row panel-heading">
+            <div class="col-xs-14 col-sm-9 col-md-9">
+
+                <label class="">Url: </label>
+                <a href="<?php echo $linkUrl ?>" target="_blank">
+                    <?php echo $linkUrl ?>
+                </a>
+            </div>
+            <?php if($this->ZfcUserType() == 'admin'){?>
+                <span class="glyphicon glyphicon-remove deleteLinkAdmin pull-right">
+                            </span>
+
+
+            <?php } ?>
+            <div class="col-xs-6 col-sm-3 col-md-2 btn-group btn-group-sm pull-right">
+                <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-thumbs-up"></span>
+                    <label class="smallpadding" id="thumbsUp"><?php echo $votesUp ?></label></button>
+                <button class="btn btn-default" type="button"><span
+                        class="glyphicon glyphicon-thumbs-down smallpadding"></span>
+                    <label class="smallpadding" id="thumbsDown"><?php echo $votesDown ?></label></button>
+
+            </div>
+
+
+        </div>
+        <div class="row panel-body">
+            <div class="col-xs-16 col-sm-14 col-md-11">
+                <label>Description:</label>
+                <?php echo $linkDescription ?>
+
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<div class="comments">
+    <?php foreach ($comments as $comment) {
+        $commentText = $comment['comment_text'];
+        $commentId = $comment['comment_id'];
+        $user_id = $comment['user_id'];
+        $user_name = $comment['user_name'];
+
+        ?>
+        <div class="container">
+            <div class="well col-xs-9 col-sm-9 col-md-7 col-md-offset-2 col-xs-offset-2 col-sm-offset-2 row">
+                <div class="row">
+                    <span class="badge col-xs-8 col-sm-10 col-md-4">
+                        <?php echo $user_name ?>
+                    </span>
+                    <?php if ($this->ZfcUserId()) {
+                        if ($this->ZfcUserId() == $user_id) { ?>
+                            <span class="glyphicon glyphicon-remove pull-right smallpadding delete">
+                            </span>
+                            <span class="glyphicon glyphicon-pencil pull-right smallpadding edit">
+                            </span>
+                            <input type="hidden" class="commentid" value="<?php echo $commentId ?>"/>
+                        <?php }
+                        else if($this->ZfcUserType() == 'admin'){
+                            ?>
+                            <span class="glyphicon glyphicon-remove pull-right smallpadding deleteAdmin">
+                            </span>
+                            <input type="hidden" class="commentid" value="<?php echo $commentId ?>"/>
+                            <input type="hidden" class="commentUser" value="<?php echo $user_id; ?>"/>
+
+                    <?php
+                    } }?>
+                </div>
+                <div class="margincomment row comment">
+                    <div class="col-xs-17 col-sm-15 col-md-11 commenttext">
+
+                        <?php echo $commentText ?>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    <?php
+
+    }
+    ?>
+
+</div>
+
+<?php
+
+if ($this->ZfcUserId()) {
+    ?>
+
+    <div class="container">
+        <div class="well col-xs-9 col-sm-9 col-md-7 col-md-offset-2 col-xs-offset-2 col-sm-offset-2 row">
+            <div class="row">
+            <span class="badge col-xs-8 col-sm-6 col-md-4">
+                Add new comment:
+            </span>
+
+                <textarea class="margincomment col-xs-10 col-sm-15 col-md-11 newcomment" rows="5"></textarea>
+
+            </div>
+            <div class="margincomment row">
+                <div class="col-xs-17 col-sm-15 col-md-11 ">
+                    <button type="button" id="postComment" class="pull-right btnpadding">Post</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+<?php } ?>
+
+
+<div id="dialog" title="Delete item" class='bg-info' style="display: none;">
+    <p>
+        <span class="glyphicon glyphicon-trash" style="float:left; margin:0 7px 20px 0;"></span>
+        Are you sure you want to delete this item?
+    </p>
+</div>
+
+<div id="alert" title="Information" class='bg-info' style="display: none;">
+    <p>
+        <span class="glyphicon glyphicon-info-sign" style="float:left; margin:0 7px 20px 0;"></span>
+        <span id="message"></span>
+    </p>
+</div>
+
+<div id="deleteLink" title="Delete link" class='bg-info' style="display: none;">
+    <p>
+        <span class="glyphicon glyphicon-trash" style="float:left; margin:0 7px 20px 0;"></span>
+        Are you sure you want to delete this link?
+    </p>
+</div>
